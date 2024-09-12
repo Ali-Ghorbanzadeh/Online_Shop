@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% include 'layout/head.html' %}
+    <title>Document</title>
+</head>
+<body class="bg-gray-500 w-10/12 mx-auto h-full">
+    {% include 'layout/header.html' %}
+    <main class="min-h-[90vh] ">
+        {% block content %}{% endblock %}
+    </main>
+    {% include 'layout/footer.html' %}
+
+    {% block extra_body %}{% endblock %}
+
+</body>
+</html>

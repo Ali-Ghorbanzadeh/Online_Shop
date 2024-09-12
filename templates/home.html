@@ -1,0 +1,81 @@
+{% extends '_base.html' %}
+{% block content %}
+    <div id="product-show" class="flex flex-row-reverse gap-[5vh] m-[6vh] h-[35vh] text-white bg-gray-400 p-7 rounded-lg hidden"></div>
+    <div id="products-show" class="flex gap-[5vh] h-[20vh] mx-7 mt-[10vh] hidden">
+        <div class="w-[120vh]">
+            <p class="font-bold text-black">List</p>
+            <section id="products-list" class="grid grid-cols-5 gap-5 mt-10 ml-2 justify-items-center"></section>
+        </div>
+        <div id="filter-section">
+            <p class="font-bold text-black">Filter</p>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_body %}
+    <script>
+        
+        function productShow(pk) {
+            fetch(`product/${pk}`, {
+                method: 'GET'
+            }).then(res => res.json())
+                .then(data => {
+                    const tempEl = document.querySelector('#product-show')
+                    const imgEl = document.querySelector(`#img-${pk}`)
+                    
+                    tempEl.innerHTML = ''
+                    document.querySelector('#product-show').innerHTML += `
+                                        <img src="${imgEl.src}" alt="${imgEl.alt}" class="h-full w-[35vh] rounded-lg ">
+                                        <div class="w-[80vh]">
+                                            <p class="font-bold">${data.name}</p>
+                                            <hr>
+                                            <div class="mt-5 h-[50%]">
+                                                <p class="opacity-[50%]">Discription:</p>
+                                                <p class="">${data.description}</p>
+                                            </div>
+                                            <p>Price: ${data.price}</p>
+                                        </div>
+                                        <div class="grid gap-3">
+                                            <img src="media/product/images/cart.png" alt="noimage" class="rounded-md">
+                                            <button class="btn btn-success">Add To Cart</button>
+                                        </div>`                    
+                    tempEl.classList.remove('hidden')
+                })
+        }
+    
+        const productEl = document.querySelector('#products-btn')
+        const productListEl = document.querySelector('#products-list')
+
+        productEl.addEventListener('click', (e) => {
+            e.preventDefault()
+            fetch(`/product/`, {
+                method: 'GET',
+            }).then(res => res.json())
+                .then(products => {
+                    productListEl.innerHTML = ''
+                    products.forEach( product => {
+                        if (product.images[0]) {
+                            fetch(`/product/image/${product.images[0]}`, {
+                                method: 'GET',
+                            }).then(res => res.json())
+                                .then(data => {
+                                    productListEl.innerHTML += `
+                                                <button onclick="productShow(${product.id})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
+                                                    <img id="img-${product.id}" src="${data.image}" alt="${data.alt}" class='size-full rounded-md'>
+                                                    <p class="my-2">${product.name}</p>
+                                                    <p>${product.price}</p>
+                                                </button>`
+                                })
+                        } else (
+                            productListEl.innerHTML += `
+                                                <button onclick="productShow(${product.id})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
+                                                    <img id="img-${product.id}" src="media/product/images/noimage.png" alt="noimage" class='size-full rounded-md'>
+                                                    <p class="my-2">${product.name}</p>
+                                                    <p>${product.price}</p>
+                                                </button>`
+                        )
+                    })
+                })
+            document.querySelector('#products-show').classList.remove('hidden')
+        })
+    </script>
+{% endblock %}
