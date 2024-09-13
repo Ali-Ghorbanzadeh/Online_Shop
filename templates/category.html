@@ -1,0 +1,16 @@
+{% extends '_base.html' %}
+{% block content %}
+    <section class="grid grid-cols-5 gap-5 mt-10 ml-2 justify-items-center">
+        {% for product in data %}
+            <button onclick="productShow({{ product.details.id}})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
+                {% if product.image %}
+                    <img id="img-{{ product.details.id }}" src="{{ product.image.first }}" alt="{{ product.image.first.alt }}" class='size-full rounded-md'>
+                    {% else %}
+                    <img id="img-{{ product.details.id }}" src="/media/product/images/noimage.png" alt="noimage" class='size-full rounded-md'>
+                {% endif %}
+                <p class="my-2">{{ product.details.name }}</p>
+                <p>{{ product.details.price }}</p>
+            </button>
+        {% endfor %}
+    </section>
+{% endblock %}

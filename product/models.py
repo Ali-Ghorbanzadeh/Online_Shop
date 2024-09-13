@@ -14,7 +14,7 @@ class Product(AbstractModel):
     description = models.TextField()
     price = models.IntegerField(null=True, blank=True, default=0)
     quantity = models.IntegerField(null=True, blank=True, default=0)
-    category = models.ForeignKey(ProductCategory, on_delete=models.DO_NOTHING, related_name='category')
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='category')
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):

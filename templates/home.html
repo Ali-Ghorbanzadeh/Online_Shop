@@ -1,19 +1,10 @@
 {% extends '_base.html' %}
 {% block content %}
-    <div id="product-show" class="flex flex-row-reverse gap-[5vh] m-[6vh] h-[35vh] text-white bg-gray-400 p-7 rounded-lg hidden"></div>
-    <div id="products-show" class="flex gap-[5vh] h-[20vh] mx-7 mt-[10vh] hidden">
-        <div class="w-[120vh]">
-            <p class="font-bold text-black">List</p>
-            <section id="products-list" class="grid grid-cols-5 gap-5 mt-10 ml-2 justify-items-center"></section>
-        </div>
-        <div id="filter-section">
-            <p class="font-bold text-black">Filter</p>
-        </div>
-    </div>
+
 {% endblock %}
 {% block extra_body %}
     <script>
-        
+
         function productShow(pk) {
             fetch(`product/${pk}`, {
                 method: 'GET'
@@ -21,7 +12,7 @@
                 .then(data => {
                     const tempEl = document.querySelector('#product-show')
                     const imgEl = document.querySelector(`#img-${pk}`)
-                    
+
                     tempEl.innerHTML = ''
                     document.querySelector('#product-show').innerHTML += `
                                         <img src="${imgEl.src}" alt="${imgEl.alt}" class="h-full w-[35vh] rounded-lg ">
@@ -37,11 +28,11 @@
                                         <div class="grid gap-3">
                                             <img src="media/product/images/cart.png" alt="noimage" class="rounded-md">
                                             <button class="btn btn-success">Add To Cart</button>
-                                        </div>`                    
+                                        </div>`
                     tempEl.classList.remove('hidden')
                 })
         }
-    
+
         const productEl = document.querySelector('#products-btn')
         const productListEl = document.querySelector('#products-list')
 
