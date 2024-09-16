@@ -70,18 +70,14 @@
                 .then(products => {
                     productListEl.innerHTML = ''
                     products.forEach( product => {
+                        console.log(product.images)
                         if (product.images[0]) {
-                            fetch(`/product/image/${product.images[0]}`, {
-                                method: 'GET',
-                            }).then(res => res.json())
-                                .then(data => {
-                                    productListEl.innerHTML += `
+                            productListEl.innerHTML += `
                                                 <button onclick="productShow(${product.id})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
-                                                    <img id="img-${product.id}" src="${data.image}" alt="${data.alt}" class='size-full rounded-md'>
+                                                    <img id="img-${product.id}" src="${product.images[0].image}" alt="${product.images[0].alt}" class='size-full rounded-md'>
                                                     <p class="my-2">${product.name}</p>
                                                     <p>${product.price}</p>
                                                 </button>`
-                                })
                         } else (
                             productListEl.innerHTML += `
                                                 <button onclick="productShow(${product.id})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
@@ -93,7 +89,6 @@
                     })
                 })
             clear(document.querySelector('#products-show'))
-            console.log(document.querySelector('#products-show'))
         })
 
         updateCategory()
