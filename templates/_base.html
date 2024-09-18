@@ -3,13 +3,16 @@
 <head>
     {% include 'layout/head.html' %}
     <title>Document</title>
+    
 </head>
 <body class="bg-gray-500 w-10/12 mx-auto h-full">
     {% include 'layout/header.html' %}
-    <main class="min-h-[90vh] ">
+    <main class="min-h-[90vh]">
         {% include 'components/product-list.html' %}
+        
         {% block content %}{% endblock %}
     </main>
+    <section id="profile" class="flex inset-0 justify-center items-center fixed z-50 hidden"></section>
     {% include 'layout/footer.html' %}
     <script>
         const categoryEl = document.querySelector('#category-list')
@@ -59,6 +62,7 @@
             document.querySelectorAll('section').forEach(section => section.classList.add('hidden'))
             element.classList.remove('hidden')
         }
+        
         const productEl = document.querySelector('#products-btn')
         const productListEl = document.querySelector('#products-list')
 
@@ -88,10 +92,80 @@
                         )
                     })
                 })
+            console.log(document.querySelector('#products-show'))
             clear(document.querySelector('#products-show'))
         })
 
         updateCategory()
+        
+        // Login
+        
+        function loginFrom() {
+            document.querySelector('main').classList.add('blur-lg', 'z-0')
+            document.querySelector('#profile').innerHTML = `{% include 'account/login.html' %}`
+            document.querySelector('#profile').classList.remove('hidden')
+        }
+        
+        function loginCheck() {
+            document.querySelector('#login-form').addEventListener('submit', (e) => {
+                e.preventDefault()
+                const data = new FormData(e.target)
+                fetch(`/login/`, {
+                    method: 'POST',
+                    body: data
+                }).then(res => {
+                    if (res.status === 202) {
+                        alert('Welcome')
+                        window.location.reload()
+                    } else {alert('Incorrect Username or Password !!!')}
+                })
+            })
+        }
+        
+        // Log Out
+        
+        function logout() {
+            fetch(`/logout/`, {
+                method: 'GET',
+                credentials: 'include'
+            }).then(res => {
+                if (res.ok) {
+                    window.location.reload()
+                }
+            })
+        }
+        
+        // Register
+        
+        function registerFrom() {
+            document.querySelector('#profile').innerHTML = `{% include 'account/register.html' %}`
+        }
+        
+        function registerCheck() {
+            document.querySelector('#register-form').addEventListener('submit', (e) => {
+                e.preventDefault()
+                const data = new FormData(e.target)
+                fetch(`/register/`, {
+                    method: 'POST',
+                    body: data
+                }).then(res => {
+                    if (res.status === 202) {
+                        alert('Registration was successful')
+                        window.location.reload()
+                    } else {alert('Wrong username or password !!!')}
+                })
+            })
+        }
+        
+        // Utils
+        
+        function closeFrom(form_id) {
+            document.querySelector('main').classList.remove('blur-lg', 'z-0')
+            document.querySelector('#' + form_id).remove()
+            document.querySelector('#profile').classList.add('hidden')
+        }
+        
+        
     </script>
     {% block extra_body %}{% endblock %}
 
