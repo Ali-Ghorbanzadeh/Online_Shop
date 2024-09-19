@@ -104,9 +104,6 @@
             document.querySelector('main').classList.add('blur-lg', 'z-0')
             document.querySelector('#profile').innerHTML = `{% include 'account/login.html' %}`
             document.querySelector('#profile').classList.remove('hidden')
-        }
-        
-        function loginCheck() {
             document.querySelector('#login-form').addEventListener('submit', (e) => {
                 e.preventDefault()
                 const data = new FormData(e.target)
@@ -121,6 +118,7 @@
                 })
             })
         }
+        
         
         // Log Out
         
@@ -139,9 +137,6 @@
         
         function registerFrom() {
             document.querySelector('#profile').innerHTML = `{% include 'account/register.html' %}`
-        }
-        
-        function registerCheck() {
             document.querySelector('#register-form').addEventListener('submit', (e) => {
                 e.preventDefault()
                 const data = new FormData(e.target)

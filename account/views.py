@@ -30,8 +30,8 @@ class RegisterView(APIView):
         password = request.data.get('password')
         confirm_password = request.data.get('confirm-password')
 
-        if len(password) < 6 and len(confirm_password) < 6 and \
-                password != confirm_password and User.objects.filter(username=username).exists():
+        if len(password) < 6 or len(confirm_password) < 6 or \
+                password != confirm_password or User.objects.filter(username=username).exists():
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         user = User.objects.create_user(username=username, password=password)
