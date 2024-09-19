@@ -13,6 +13,12 @@
                     </ul>
                 </details>
             	{% else %}
+                    <section id="login-page" class="flex inset-0 justify-center items-center fixed z-50 hidden">
+                        {% include 'account/login.html' %}
+                    </section>
+                    <section id="register-page" class="flex inset-0 justify-center items-center fixed z-50 hidden">
+                        {% include 'account/register.html' %}
+                    </section>
                     <button onclick="loginFrom()" id="login" class="btn btn-active btn-neutral hover:btn-warning">Login / SignUp</button>
             {% endif %} 
         </div>

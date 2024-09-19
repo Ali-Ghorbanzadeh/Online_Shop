@@ -11,7 +11,7 @@
     </section>
     <section class="grid grid-cols-5 gap-5 mt-10 ml-4 justify-items-center">
         {% for product in data %}
-            <button onclick="productShow({{ product.id}})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
+            <button onclick="productShow({{ product.id }})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
                 {% if product.images %}
                     <img id="img-{{ product.id }}" src="{{ product.images.0.image }}" alt="{{ product.images.0.alt }}" class='size-full rounded-md'>
                 {% else %}

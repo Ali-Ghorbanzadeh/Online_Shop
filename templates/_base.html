@@ -1,166 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
+    {% load static %}
     {% include 'layout/head.html' %}
     <title>Document</title>
-    
 </head>
 <body class="bg-gray-500 w-10/12 mx-auto h-full">
     {% include 'layout/header.html' %}
     <main class="min-h-[90vh]">
         {% include 'components/product-list.html' %}
-        
         {% block content %}{% endblock %}
     </main>
-    <section id="profile" class="flex inset-0 justify-center items-center fixed z-50 hidden"></section>
     {% include 'layout/footer.html' %}
+    <script src="{% static 'JS/product/update_category.js' %}"></script>
+    <script src="{% static 'JS/product/product_show.js' %}"></script>
+    <script src="{% static 'JS/utils.js' %}"></script>
+    <script src="{% static 'JS/account/login.js' %}"></script>
+    <script src="{% static 'JS/account/register.js' %}"></script>
+    <script src="{% static 'JS/account/logout.js' %}"></script>
     <script>
-        const categoryEl = document.querySelector('#category-list')
-
-        function updateCategory() {
-            fetch(`/product/category/`, {
-                method: 'GET'
-            }).then(res => res.json())
-                .then(data => {
-                    categoryEl.innerHTML = ''
-                    data.forEach(category => {
-                        categoryEl.innerHTML += `
-                                        <li class="!w-full"><a href="/product/category/${category.name}">${category.name}</a></li>`
-                    })
-                })
-        }
-
-        function productShow(pk) {
-            fetch(`/product/${pk}`, {
-                method: 'GET'
-            }).then(res => res.json())
-                .then(data => {
-                    const tempEl = document.querySelector('#product-show')
-                    const imgEl = document.querySelector(`#img-${pk}`)
-
-                    tempEl.innerHTML = ''
-                    document.querySelector('#product-show').innerHTML += `
-                                        <img src="${imgEl.src}" alt="${imgEl.alt}" class="h-full w-[35vh] rounded-lg ">
-                                        <div class="w-[80vh]">
-                                            <p class="font-bold">${data.name}</p>
-                                            <hr>
-                                            <div class="mt-5 h-[50%]">
-                                                <p class="opacity-[50%]">Discription:</p>
-                                                <p class="">${data.description}</p>
-                                            </div>
-                                            <p>Price: ${data.price}</p>
-                                        </div>
-                                        <div class="grid gap-3">
-                                            <img src="/media/product/images/cart.png" alt="noimage" class="rounded-md">
-                                            <button class="btn btn-success">Add To Cart</button>
-                                        </div>`
-                    tempEl.classList.remove('hidden')
-                })
-        }
-        
-        function clear(element) {
-            document.querySelectorAll('section').forEach(section => section.classList.add('hidden'))
-            element.classList.remove('hidden')
-        }
-        
-        const productEl = document.querySelector('#products-btn')
-        const productListEl = document.querySelector('#products-list')
-
-        productEl.addEventListener('click', (e) => {
-            e.preventDefault()
-            fetch(`/product/`, {
-                method: 'GET',
-            }).then(res => res.json())
-                .then(products => {
-                    productListEl.innerHTML = ''
-                    products.forEach( product => {
-                        console.log(product.images)
-                        if (product.images[0]) {
-                            productListEl.innerHTML += `
-                                                <button onclick="productShow(${product.id})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
-                                                    <img id="img-${product.id}" src="${product.images[0].image}" alt="${product.images[0].alt}" class='size-full rounded-md'>
-                                                    <p class="my-2">${product.name}</p>
-                                                    <p>${product.price}</p>
-                                                </button>`
-                        } else (
-                            productListEl.innerHTML += `
-                                                <button onclick="productShow(${product.id})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
-                                                    <img id="img-${product.id}" src="/media/product/images/noimage.png" alt="noimage" class='size-full rounded-md'>
-                                                    <p class="my-2">${product.name}</p>
-                                                    <p>${product.price}</p>
-                                                </button>`
-                        )
-                    })
-                })
-            console.log(document.querySelector('#products-show'))
-            clear(document.querySelector('#products-show'))
-        })
-
-        updateCategory()
-        
-        // Login
-        
-        function loginFrom() {
-            document.querySelector('main').classList.add('blur-lg', 'z-0')
-            document.querySelector('#profile').innerHTML = `{% include 'account/login.html' %}`
-            document.querySelector('#profile').classList.remove('hidden')
-            document.querySelector('#login-form').addEventListener('submit', (e) => {
-                e.preventDefault()
-                const data = new FormData(e.target)
-                fetch(`/login/`, {
-                    method: 'POST',
-                    body: data
-                }).then(res => {
-                    if (res.status === 202) {
-                        alert('Welcome')
-                        window.location.reload()
-                    } else {alert('Incorrect Username or Password !!!')}
-                })
-            })
-        }
-        
-        
-        // Log Out
-        
-        function logout() {
-            fetch(`/logout/`, {
-                method: 'GET',
-                credentials: 'include'
-            }).then(res => {
-                if (res.ok) {
-                    window.location.reload()
-                }
-            })
-        }
-        
-        // Register
-        
-        function registerFrom() {
-            document.querySelector('#profile').innerHTML = `{% include 'account/register.html' %}`
-            document.querySelector('#register-form').addEventListener('submit', (e) => {
-                e.preventDefault()
-                const data = new FormData(e.target)
-                fetch(`/register/`, {
-                    method: 'POST',
-                    body: data
-                }).then(res => {
-                    if (res.status === 202) {
-                        alert('Registration was successful')
-                        window.location.reload()
-                    } else {alert('Wrong username or password !!!')}
-                })
-            })
-        }
-        
-        // Utils
-        
-        function closeFrom(form_id) {
-            document.querySelector('main').classList.remove('blur-lg', 'z-0')
-            document.querySelector('#' + form_id).remove()
-            document.querySelector('#profile').classList.add('hidden')
-        }
-        
-        
+                        
     </script>
     {% block extra_body %}{% endblock %}
 
