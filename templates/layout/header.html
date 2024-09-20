@@ -5,9 +5,10 @@
                 <details class="dropdown">
                     <summary id="profile-menu" class="btn btn-active btn-neutral hover:btn-warning">Profile</summary>
                     <ul class="flex gap-1 menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow mt-2">
-                        <li><button>Item 1</button></li>
-                        <li><button>Item 1</button></li>
-                        <li><button>Item 1</button></li>
+                        <li><button>Name: {{ request.user.username }}</button></li>
+                        <li><button>Details</button></li>
+                        <li><button>Order History</button></li>
+                        <li><button>Balance: ${{ request.user.profile.balance }}</button></li>
                         <hr>
                         <li><button onclick="logout()" id="logout">Log Out</button></li>
                     </ul>

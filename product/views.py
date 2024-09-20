@@ -1,19 +1,20 @@
 from .models import Product, ProductCategory
 from .serializer import ProductSerializer, ProductCategorySerializer
-from rest_framework import mixins
-from rest_framework import generics
+from rest_framework import mixins, generics
+from rest_framework.viewsets import ViewSet
 from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+
+# def home(request):
+#     return render(request, 'home.html')
 
 
-def home(request):
-    return render(request, 'home.html')
+class HomeView(ListView):
+    model = Product
+    template_name = 'home.html'
 
 
-class ProductView(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  generics.GenericAPIView):
+class ProductView(mixins.ListModelMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -28,32 +29,10 @@ class ProductView(mixins.ListModelMixin,
 
         return self.list(request)
 
-    def post(self, request):
-        ...
 
-    def put(self, request, product_id):
-        ...
-
-    def delete(self, request, product_id):
-        ...
-
-
-class CategoryView(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   mixins.RetrieveModelMixin,
-                   mixins.UpdateModelMixin,
-                   generics.GenericAPIView):
+class CategoryView(mixins.ListModelMixin, generics.GenericAPIView, mixins.DestroyModelMixin):
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request)
-
-    def post(self, request):
-        ...
-
-    def put(self, request, product_id):
-        ...
-
-    def delete(self, request, product_id):
-        ...

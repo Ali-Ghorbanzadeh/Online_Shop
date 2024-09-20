@@ -8,6 +8,7 @@
 <body class="bg-gray-500 w-10/12 mx-auto h-full">
     {% include 'layout/header.html' %}
     <main class="min-h-[90vh]">
+        {% csrf_token %}
         {% include 'components/product-list.html' %}
         {% block content %}{% endblock %}
     </main>
@@ -18,6 +19,7 @@
     <script src="{% static 'JS/account/login.js' %}"></script>
     <script src="{% static 'JS/account/register.js' %}"></script>
     <script src="{% static 'JS/account/logout.js' %}"></script>
+    <script src="{% static 'JS/order/add_item.js' %}"></script>
     <script>
                         
     </script>

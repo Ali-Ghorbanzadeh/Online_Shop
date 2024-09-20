@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from .models import Profile
 
 
 class LoginView(APIView):
@@ -13,6 +14,7 @@ class LoginView(APIView):
         password = request.data.get('password')
 
         if user := authenticate(request, username=username, password=password):
+            print(user)
             login(request, user)
             return Response(status=status.HTTP_202_ACCEPTED)
         return Response(status=status.HTTP_200_OK)
@@ -35,5 +37,6 @@ class RegisterView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         user = User.objects.create_user(username=username, password=password)
+        Profile.objects.create(user=user)
         login(request, user)
         return Response(status=status.HTTP_202_ACCEPTED)

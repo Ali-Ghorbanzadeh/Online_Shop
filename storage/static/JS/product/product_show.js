@@ -20,10 +20,20 @@ function productShow(pk) {
                                             </div>
                                             <p>Price: ${data.price}</p>
                                         </div>
-                                        <div class="grid gap-3">
+                                        <div id="order-section">
                                             <img src="/media/product/images/cart.png" alt="noimage" class="rounded-md">
-                                            <button class="btn btn-success">Add To Cart</button>
                                         </div>`
+            if (data.quantity !== 0) {
+                document.querySelector('#order-section').innerHTML += `
+                                            <form class="flex flex-reverse justify-between gap-2 mt-3">
+                                                <label for="quantity">
+                                                    <input type="number" value="1" min="1" max="${data.quantity}" placeholder="Quantity" name="quantity" class="text-black p-2 h-full w-max bg-green-100 rounded-lg">
+                                                </label>
+                                                <button onclick="addItem(${pk}, ${data.price})" id="add-items" type="button" class="btn btn-success w-min text-[40px]">+</button>
+                                            </form>`
+            } else {document.querySelector('#order-section').innerHTML += `
+            <p class="text-red-500 mx-auto">non-existent</p>`}
+
             tempEl.classList.remove('hidden')
         })
 }
