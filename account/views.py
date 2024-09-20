@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from .models import Profile
+from .serializer import UserSerializer
 
 
 class LoginView(APIView):
@@ -40,3 +41,20 @@ class RegisterView(APIView):
         Profile.objects.create(user=user)
         login(request, user)
         return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class ProfileView(APIView):
+    def get(self, request):
+        user = User.objects.get(id=request.user.id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        print(request.data)
+        user = User.objects.get(id=request.user.id)
+        user.first_name = request.data.get('first_name')
+        user.last_name = request.data.get('last_name')
+        print(user)
+        user.save()
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

@@ -46,7 +46,6 @@ productEl.addEventListener('click', (e) => {
         .then(products => {
             productListEl.innerHTML = ''
             products.forEach( product => {
-                console.log(product.images)
                 if (product.images[0]) {
                     productListEl.innerHTML += `
                                                 <button onclick="productShow(${product.id})" type="button" class="border-[3px] border-green-500 rounded-lg text-white">
@@ -64,6 +63,5 @@ productEl.addEventListener('click', (e) => {
                 )
             })
         })
-    console.log(document.querySelector('#products-show'))
     clear(document.querySelector('#products-show'))
 })

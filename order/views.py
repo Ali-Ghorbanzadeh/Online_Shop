@@ -2,13 +2,13 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.mixins import ListModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from product.models import Product
 from .models import Order, OrderItem
 from .serializer import OrderSerializer, OrderItemSerializer
 
 
-class OrderListAPIView(GenericAPIView, ListModelMixin, DestroyModelMixin, UpdateModelMixin):
+class OrderListAPIView(GenericAPIView, ListModelMixin, UpdateModelMixin):
     serializer_class = OrderSerializer
 
     def get(self, request, *args, **kwargs):
@@ -18,13 +18,11 @@ class OrderListAPIView(GenericAPIView, ListModelMixin, DestroyModelMixin, Update
             return self.list(request, *args, **kwargs)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def delete(self, request, *args, **kwargs):
-        self.queryset = Order.objects.get(user_id=request.user.id, status=True)
-        return self.destroy(request, *args, **kwargs)
-
     def put(self, request, *args, **kwargs):
-        self.queryset = Order.objects.get(user_id=request.user.id, status=True)
-        return self.update(request, *args, **kwargs)
+        order = Order.objects.get(pk=kwargs['pk'])
+        order.status = False
+        order.save()
+        return Response(request.data, status=status.HTTP_202_ACCEPTED)
     
 
 class OrderItemAPIView(APIView):

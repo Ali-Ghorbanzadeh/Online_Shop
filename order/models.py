@@ -7,6 +7,7 @@ from core.models import AbstractModel
 class Order(AbstractModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     status = models.BooleanField(default=False)
+    expired = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.username}'

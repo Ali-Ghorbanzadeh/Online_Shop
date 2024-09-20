@@ -7,9 +7,9 @@
 </head>
 <body class="bg-gray-500 w-10/12 mx-auto h-full">
     {% include 'layout/header.html' %}
+    {% csrf_token %}
+    {% include 'components/product-list.html' %}
     <main class="min-h-[90vh]">
-        {% csrf_token %}
-        {% include 'components/product-list.html' %}
         {% block content %}{% endblock %}
     </main>
     {% include 'layout/footer.html' %}
@@ -20,9 +20,10 @@
     <script src="{% static 'JS/account/register.js' %}"></script>
     <script src="{% static 'JS/account/logout.js' %}"></script>
     <script src="{% static 'JS/order/add_item.js' %}"></script>
-    <script>
-                        
-    </script>
+    <script src="{% static 'JS/order/order-history.js' %}"></script>
+    <script src="{% static 'JS/order/pay_order.js' %}"></script>
+    <script src="{% static 'JS/account/profile.js' %}"></script>
+
     {% block extra_body %}{% endblock %}
 
 </body>

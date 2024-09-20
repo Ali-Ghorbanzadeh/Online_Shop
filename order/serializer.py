@@ -19,4 +19,5 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'user',
                   'items',
-                  'status']
+                  'status',
+                  'expired']
